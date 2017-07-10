@@ -1,127 +1,108 @@
 //arreglo global
 var arr_global=[];
+var a=0;
 $(document).ready(function(){
+
 });
 
 $(window).load(function () {
+
+    $('.btnGuardar').click(function(){
+        var description= $('.description').val();
+        var unity= $('.unity').val();
+        var cost= $('.cost').val();
+
+        if(description!="" && unity!="" && cost!=""){
+            tableWrite(description,unity,cost);
+            // var objpart= new Object(); 
+            // objpart.desc=description;
+            // objpart.unity=unity;
+            // objpart.cost=cost;
+            arr_global[a]= {desc:description,
+                            unity:parseInt(unity),
+                            cost:parseFloat(cost),
+                            costTotal:(parseInt(unity)*parseFloat(cost))};  
+            a++
+            $('.description').val("");
+            $('.unity').val("");
+            $('.cost').val("");
+        }else{
+            Materialize.toast('Ingresar los valores', 800);
+        }
+
+    });
+
+    
+    $('.btnGraficar').click(function(){
+        $('.resultGeneral').show();
+        tableWriteResult();
+    });
 });
 
-//function del boton mostrar--> muestra el grafico
-function mostrar(){
-    var selectedVal = "";
-    var selected = $("input[type='radio'][name='optradio']:checked");
-    if (selected.length > 0) {
-        selectedVal = selected.val();
-    }
-    if(arr_global==''){
-        arr_global=arrRandom();
-        GraphicColumnAndLine(arrShow(arr_global));
-    }else{
-        if(selectedVal=="1"){
-            GraphicColumnAndLine(arrShow(arr_global));
-        }else if(selectedVal=="2"){
-            graphicBarras3D(arrShow(arr_global));
-        }else if(selectedVal=="3"){
-            graphic3DDonuts(arrShow(arr_global));
-        }
-    }
-
-    $('.mediaText').text("Media: "+media(arr_global));
-    $('.modaText').text("Moda: "+moda(arr_global));
-    $('.medianaText').text("Mediana: "+mediana(arr_global));
+function tableWrite(description,unity,cost){
+    $('.bodyTable').append("<tr>"+
+    "<td>"+(a+1)+"</td>"+
+    "<td>"+description+"</td>"+
+    "<td>"+unity+"</td>"+
+    "<td>"+cost+"</td>"+
+    "</tr>");
 }
 
-//funcion del boton reiniciar
-function reiniciar(){
-    arr_global=arrRandom();
-}
-
-
-//funcion para elordenar el arreglo para mostrar
-function arrShow(arr){
-    var arreglo=arr;
-    var n_arreglo=[];
-    for(var i=0;i<10;i++){
-        var cont=0;
-        for(var j=0;j<arreglo.length;j++){
-            if(i==arreglo[j]){
-                cont++;
+function orderByCostTotal(){
+    var cop_arr_global=arr_global;
+    var cop_obj;
+    for(var i=0;i<arr_global.length-1;i++){
+        for(var j=0;j<arr_global.length-1;j++){
+            if(arr_global[j]>arr_global[j+1]){
+            cop_obj=arr_global[j];
+            arr_global[j]=arr_global[j+1];
+            arr_global[j+1]=cop_obj;
             }
         }
-        n_arreglo[i]=cont;
     }
-    return n_arreglo;
-
 }
 
-
-//generar un arreglo de 20 numeros randon de 0-9
-function arrRandom(){
-    var arr=[];
-    var num;
-    for(var i=0;i<20;i++){
-         num= Math.floor((Math.random()* 10));
-        arr[i]=num;
+function tableWriteResult(){
+    $('.bodyTableResult').empty();
+    for(var i=0;i<arr_global.length;i++){
+        $('.bodyTableResult').append("<tr>"+
+            "<td>"+(i+1)+"</td>"+
+            "<td>"+arr_global[i].desc+"</td>"+
+            "<td>"+arr_global[i].unity+"</td>"+
+            "<td>"+porcentUnity(arr_global[i].unity).toFixed(3)+"</td>"+
+            "<td>"+arr_global[i].cost+"</td>"+
+            "<td>"+"%"+"</td>"+
+            "<td>"+"costo total"+"</td>"+
+            "<td>"+"clase"+"</td>"+
+            "</tr>");
     }
-    return arr; 
 }
 
+function porcentUnity(unity){
+    return (unity*100/sumUnity());
+}
 
-//funcion para obetenr la media de un arreglo
-function media(arr){
+function sumUnity(){
     var sum=0;
-    var media;
-    for(var i=0;i<arr.length;i++){
-        sum=arr[i]+sum;
+    for(var i=0;i<arr_global.length;i++){
+        sum+=arr_global[i].unity;        
     }
-    media=(sum/arr.length);
-    return media;
-}
+    return sum;
+} 
 
 
-//funcion para obetenr la mediana de un arreglo
-function mediana(arr){
-    var mediana;
-    var aux;
-    
-    for(var i=0;i<arr.length;i++){
-        for(var j=0;j<arr.length-1;j++){
-            if(arr[j+1]<arr[j]){
-                aux=arr[j+1];
-                arr[j+1]=arr[j];
-                arr[j]=aux;
-            }
-        }  
+
+function graphicValueAxis(){
+  var chartData=[];
+  function paintGraph(){
+    for(var i=0;i<arr_global.length;i++){
+      chartData.push({
+        "year": (i+1),
+        "valuesY":arr_global[i],
+        "fx":valueEcuation(i).toFixed(3),
+      });
     }
-    if(arr.length%2===0){
-        var num1=(arr.length/2)-1;
-        var num2=(arr.length/2);
-        mediana=(arr[num1]+arr[num2])/2;
-        
-    }else{
-        mediana=arr[arr.length-1/2];
-    }
-    return mediana;
+    return chartData;
+  }
     
 }
-
-
-//funcion para obetenr la moda de un arreglo
-function moda(arr){
-var moda;
-var maxrep=0;
-for(var i=0;i<arr.length;i++){
-    var rep=0;
-    for(var j=0;j<arr.length;j++){
-        if(arr[i]===arr[j]){
-            rep++;
-        }
-    }
-    if(rep>maxrep){
-        moda=arr[i];
-        maxrep=rep;
-    }
-}
-return moda;
-}
-

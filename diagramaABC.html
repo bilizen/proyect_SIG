@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="author" content="Bill Flores">
+        <meta name="description" content="Page Diagrama ABC">
+
+       <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+
+
+        <!-- Resources -->
+        <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+        <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+        <script src="https://www.amcharts.com/lib/3/themes/none.js"></script>
+        <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+        <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+
+        <link type="text/css" rel="stylesheet" href="css/diagramaABC.css"/>
+        <script type="text/javascript" src="js/scripts/diagramaABC.js"></script>
+
+        <title>Diagrama ABC</title>
+    </head>
+
+    <body>
+        <div class="card-panel grey lighten-4">
+            <span class="center-align title">Diagrama ABC</span>
+        </div>
+        </br>
+
+        <div class="row">
+            <form class="input-field col s3">
+                <input placeholder="Ingrese la Descripción" type="text" class="validate description">
+                <label>Descripción:</label>
+            </form>
+            <form class="input-field col s3">
+                <input placeholder="Ingrese la unidad" type="number" class="validate unity">
+                <label>Unidad:</label>
+            </form>
+            <form class="input-field col s3">
+                <input placeholder="Ingrese el costo" type="number" class="validate cost">
+                <label>Costo unitario:</label>
+            </form>
+        </div>  
+
+        <div class="row">
+            <form class="col s3">
+                <button type="button" class="button waves-effect waves-light btn btnGuardar">Guardar</button>
+            </form>
+            <form class="col s3">
+                <button type="button" class="button waves-effect waves-light btn btnGraficar">Graficar</button>
+            </form>
+        </div>
+        <table class="centered">
+                <thead>
+                  <tr>
+                      <th>Orden</th>
+                      <th>Descripción</th>
+                      <th>Unidad</th>
+                      <th>Costo unitario</th>
+                  </tr>
+                </thead>
+
+                <tbody class="bodyTable">
+                 <!--  <tr>
+                    <td>Alvin</td>
+                    <td>Eclair</td>
+                    <td>$0.87</td>
+                  </tr> -->
+                </tbody>
+            </table>
+        
+        </br>
+        </br>
+
+        
+       
+
+        <div class="resultGeneral" style="display:none;">
+            <table class="centered">
+                <thead>
+                  <tr>
+                      <th>Orden</th>
+                      <th>Descripción</th>
+                      <th>Unidad</th>
+                      <th>unidad(%)</th>
+                      <th>Costo unitario</th>
+                      <th>Unidad acumulada(%)</th>
+                      <th>Costo total</th>
+                      <th>Clase</th>
+                  </tr>
+                </thead>
+
+                <tbody class="bodyTableResult">
+                 <!--  <tr>
+                    <td>Alvin</td>
+                    <td>Eclair</td>
+                    <td>$0.87</td>
+                  </tr> -->
+                </tbody>
+            </table>
+            </br>
+
+
+
+            <div class="row">
+                <form class="col s6">
+                    <span class="center-align">F(x)=a+bx</span>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col s3">
+                    <span class="valueA"></span> 
+                </form>
+                <form class="col s3">
+                    <span class="valueB"></span>
+                </form>
+            </div>
+
+            <div class="row">
+                <form class="col s6">
+                    <span class="fX"></span>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col s6">
+                    <span class="result"></span>
+                </form>
+            </div>
+            <div class="row">
+                <form class="col s6">
+                    <span>Desviación Estandar=</span>
+                    <span class="desvEst"></span>
+                </form>
+            </div>
+        </div>
+        
+
+        </br>
+        <div id="chartdiv"></div>       
+        </br>
+        </br>
+    </body>
+</html>
+
